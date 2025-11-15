@@ -1,9 +1,10 @@
 import React from 'react';
 
-import logoImg from "../../../matrimony-app/src/components/admin/images/logo.png";
+// import logoImg from "../../../matrimony-app/public/assets";
+import logoImg from "../../public/agapevows - logo-CAviFpbC.png"
 import profImg1 from "../assets/images/profiles/1.jpg";
 
-
+// "D:\sensitiveLiveProject\Matrimony\Matrimony-App\matrimony-client\public\agapevows - logo-CAviFpbC.png"
 const MenuPopUp1 = () => {
   return (
     <div className="menu-pop menu-pop1">
