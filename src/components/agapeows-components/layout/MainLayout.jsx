@@ -111,9 +111,10 @@ const ExploreDropdown = ({ isVisible }) => {
 // Profile Dropdown Component
 const ProfileDropdown = ({ isVisible, onLogout }) => {
   const profileLinks = [
-    { label: "My Profile", path: "/user/user-dashboard-page" },
+    { label: "My Profile", path: "/user/user-profile-page" },
     // { label: "My Chatss", path: "/user/show-all-profiles/all-profile" },
-    { label: "User Settings", path: "/user/user-settings-page" },
+    { label: "Change Password", path: "/reset-password/:userId" },
+    { label: "User Settings", path: "/user/user-settings-page" }
   ];
 
   const handleNavigate = (path) => {
@@ -147,6 +148,9 @@ const ProfileDropdown = ({ isVisible, onLogout }) => {
     </div>
   );
 };
+
+
+
 
 const MainLayout = () => {
   const userId = localStorage.getItem("userId");
@@ -203,16 +207,16 @@ const MainLayout = () => {
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-1 cursor-pointer hover:text-purple-200">
                 <Search className="w-4 h-4" />
-                <button onClick={() => handleNavigate("/about")}>ABOUT</button>
+                <button onClick={() => handleNavigate("/about-us")}>ABOUT</button>
               </div>
               <button
-                onClick={() => handleNavigate("/faq")}
+                onClick={() => handleNavigate("/faq-page")}
                 className="cursor-pointer hover:text-purple-200"
               >
                 FAQ
               </button>
               <button
-                onClick={() => handleNavigate("/contact")}
+                onClick={() => handleNavigate("/contact-page")}
                 className="cursor-pointer hover:text-purple-200"
               >
                 CONTACT
@@ -476,6 +480,15 @@ const MainLayout = () => {
                       className="w-full text-left text-gray-700 py-2"
                     >
                       My Chats
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleNavigate("/user/user-change-password");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full text-left text-gray-700 py-2"
+                    >
+                      Change Password
                     </button>
                     <button
                       onClick={() => {

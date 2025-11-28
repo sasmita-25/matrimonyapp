@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import planIcon from "../../assets/images/icon/plan.png";
 import { getMyActivePlanData } from "../../api/axiosService/userAuthService";
+import { useNavigate } from "react-router-dom";
 
 const PlanDetails = () => {
+  const navigate = useNavigate()
   const [planData, setPlanData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,7 +23,7 @@ const PlanDetails = () => {
           setError("No active plan found");
         }
       } catch (err) {
-        setError("Failed to fetch plan data");
+        setError(err?.response?.data?.message);
         console.error("Error fetching plan data:", err);
       } finally {
         setLoading(false);
@@ -86,9 +88,9 @@ const PlanDetails = () => {
             <p className="text-danger">{error}</p>
             <button
               className="btn btn-primary btn-sm"
-              onClick={() => window.location.reload()}
+              onClick={() => navigate("/user/user-plan-selection")}
             >
-              Retry
+              Upgrade plan
             </button>
           </div>
         </div>
@@ -182,7 +184,7 @@ const PlanDetails = () => {
               </strong>
             </li>
             <li>
-              <a href="#!" className="cta-3">
+              <a href="/user/user-plan-selection" className="cta-3">
                 Upgrade now
               </a>
             </li>

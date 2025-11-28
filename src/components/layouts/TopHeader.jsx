@@ -169,7 +169,7 @@ const TopHeader = () => {
   const topBarLinks = [
     { label: "ABOUT", path: "/about" },
     { label: "FAQ", path: "/faq" },
-    { label: "CONTACT", path: "/contact" },
+    { label: "CONTACT", path: "/contact-page" },
   ];
 
   const mainNavLinks = [

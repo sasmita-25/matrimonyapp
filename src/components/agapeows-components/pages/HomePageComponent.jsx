@@ -215,9 +215,9 @@ const HeroSection = () => {
 
   // Background images array
   const backgroundImages = [
-    "https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    "https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+    "https://i.pinimg.com/736x/75/cc/d2/75ccd26f56ea44b5fa45171ceac3cc56.jpg",
+    "https://i.pinimg.com/1200x/9c/aa/9d/9caa9daf77921d0b2a18ffb3a98151ba.jpg",
+    "https://i.pinimg.com/1200x/3a/00/ac/3a00ac10207b4fcfd87a93717d8aebc2.jpg",
   ];
 
   // Generate age options for dropdowns

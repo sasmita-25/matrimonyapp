@@ -54,13 +54,11 @@ const TrustBrands = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
-      const timer = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % users.length);
-      }, 4000);
-      return () => clearInterval(timer);
-    }
-  }, [isMobile, users.length]);
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % users.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [users.length]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % users.length);
@@ -73,6 +71,13 @@ const TrustBrands = () => {
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
+
+  const getVisibleSlides = () => {
+    if (isMobile) return 1;
+    return 3; // Show 3 slides on desktop
+  };
+
+  const visibleSlides = getVisibleSlides();
 
   const styles = {
     section: {
@@ -88,6 +93,7 @@ const TrustBrands = () => {
       textAlign: "center",
       marginBottom: "3rem",
       marginTop: "5rem",
+      paddingTop: "3rem",
     },
     subtitle: {
       color: "black",
@@ -115,26 +121,24 @@ const TrustBrands = () => {
       margin: "0 auto",
       borderRadius: "2px",
     },
-    desktopGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "1.5rem",
-      marginBottom: "2rem",
+    sliderContainer: {
+      position: "relative",
     },
-    mobileSlider: {
+    sliderWrapper: {
       position: "relative",
       overflow: "hidden",
       borderRadius: "1rem",
+      padding: "0 0.75rem",
     },
     slideContainer: {
       display: "flex",
       transition: "transform 0.5s ease-in-out",
-      transform: `translateX(-${currentSlide * 100}%)`,
+      transform: `translateX(-${currentSlide * (100 / visibleSlides)}%)`,
     },
     slide: {
-      width: "100%",
+      width: `${100 / visibleSlides}%`,
       flexShrink: 0,
-      padding: "0 1rem",
+      padding: "0 0.75rem",
     },
     reviewCard: {
       backgroundColor: "white",
@@ -143,6 +147,7 @@ const TrustBrands = () => {
       boxShadow:
         "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
       transition: "box-shadow 0.3s ease",
+      height: "100%",
     },
     imageContainer: {
       display: "flex",
@@ -151,8 +156,8 @@ const TrustBrands = () => {
       position: "relative",
     },
     profileImage: {
-      width: "5rem",
-      height: "5rem",
+      width: isMobile ? "6rem" : "5rem",
+      height: isMobile ? "6rem" : "5rem",
       borderRadius: "50%",
       objectFit: "cover",
       border: "4px solid #e5e7eb",
@@ -161,8 +166,8 @@ const TrustBrands = () => {
       position: "absolute",
       top: "-4px",
       right: "-4px",
-      width: "1.5rem",
-      height: "1.5rem",
+      width: isMobile ? "2rem" : "1.5rem",
+      height: isMobile ? "2rem" : "1.5rem",
       backgroundColor: "#a020f0",
       borderRadius: "50%",
       display: "flex",
@@ -180,7 +185,7 @@ const TrustBrands = () => {
       color: "#a020f0",
       fontWeight: "600",
       textAlign: "center",
-      fontSize: "1.125rem",
+      fontSize: isMobile ? "1.25rem" : "1.125rem",
       marginBottom: "0.25rem",
     },
     reviewerLocation: {
@@ -188,21 +193,35 @@ const TrustBrands = () => {
       textAlign: "center",
       fontSize: "0.875rem",
     },
-    navigation: {
+    navButton: {
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      padding: "1rem",
+      width: "3.5rem",
+      height: "3.5rem",
+      borderRadius: "50%",
+      backgroundColor: "#a020f0",
+      border: "none",
+      boxShadow: "0 4px 6px -1px rgba(160, 32, 240, 0.3)",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      marginTop: "1.5rem",
-      gap: "1rem",
+      zIndex: 10,
     },
-    navButton: {
-      padding: "0.5rem",
-      borderRadius: "50%",
-      backgroundColor: "white",
-      border: "1px solid #e5e7eb",
-      boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
-      cursor: "pointer",
-      transition: "all 0.2s ease",
+    prevButton: {
+      left: isMobile ? "-15px" : "-60px",
+    },
+    nextButton: {
+      right: isMobile ? "-15px" : "-60px",
+    },
+    dotsContainer: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: "2rem",
     },
     dots: {
       display: "flex",
@@ -214,6 +233,8 @@ const TrustBrands = () => {
       borderRadius: "50%",
       cursor: "pointer",
       transition: "all 0.2s ease",
+      border: "none",
+      padding: 0,
     },
     ctaContainer: {
       textAlign: "center",
@@ -245,186 +266,133 @@ const TrustBrands = () => {
           <div style={styles.divider}></div>
         </div>
 
-        {/* Reviews Container */}
-        <div>
-          {/* Desktop View - Grid Layout */}
-          {!isMobile ? (
-            <div style={styles.desktopGrid}>
+        {/* Slider Container */}
+        <div style={styles.sliderContainer}>
+          {/* Previous Button - Left Side */}
+          <button
+            onClick={prevSlide}
+            style={{ ...styles.navButton, ...styles.prevButton }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "#8b1fa3";
+              e.target.style.transform = "translateY(-50%) scale(1.1)";
+              e.target.style.boxShadow =
+                "0 6px 12px -2px rgba(160, 32, 240, 0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "#a020f0";
+              e.target.style.transform = "translateY(-50%) scale(1)";
+              e.target.style.boxShadow =
+                "0 4px 6px -1px rgba(160, 32, 240, 0.3)";
+            }}
+          >
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          {/* Slider */}
+          <div style={styles.sliderWrapper}>
+            <div style={styles.slideContainer}>
               {users.map((user) => (
-                <div key={user.id} style={styles.reviewCard}>
-                  <div style={styles.imageContainer}>
-                    <img
-                      src={user.image}
-                      alt={user.name}
-                      style={styles.profileImage}
-                      loading="lazy"
-                    />
-                    <div style={styles.verifiedBadge}>
-                      <svg
-                        width="12"
-                        height="12"
-                        fill="white"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                <div key={user.id} style={styles.slide}>
+                  <div style={styles.reviewCard}>
+                    <div style={styles.imageContainer}>
+                      <img
+                        src={user.image}
+                        alt={user.name}
+                        style={styles.profileImage}
+                        loading="lazy"
+                      />
+                      <div style={styles.verifiedBadge}>
+                        <svg
+                          width={isMobile ? "16" : "12"}
+                          height={isMobile ? "16" : "12"}
+                          fill="white"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
                     </div>
+                    <p style={styles.reviewText}>
+                      "Amazing experience! The service exceeded our expectations
+                      and made our special day even more memorable. Highly
+                      recommend to all couples!"
+                    </p>
+                    <h5 style={styles.reviewerName}>{user.name}</h5>
+                    <span style={styles.reviewerLocation}>{user.location}</span>
                   </div>
-                  <p style={styles.reviewText}>
-                    "Amazing experience! The service exceeded our expectations
-                    and made our special day even more memorable. Highly
-                    recommend to all couples!"
-                  </p>
-                  <h5 style={styles.reviewerName}>{user.name}</h5>
-                  <span style={styles.reviewerLocation}>{user.location}</span>
                 </div>
               ))}
             </div>
-          ) : (
-            /* Mobile View - Slider */
-            <div>
-              <div style={styles.mobileSlider}>
-                <div style={styles.slideContainer}>
-                  {users.map((user) => (
-                    <div key={user.id} style={styles.slide}>
-                      <div style={styles.reviewCard}>
-                        <div style={styles.imageContainer}>
-                          <img
-                            src={user.image}
-                            alt={user.name}
-                            style={{
-                              ...styles.profileImage,
-                              width: "6rem",
-                              height: "6rem",
-                            }}
-                            loading="lazy"
-                          />
-                          <div
-                            style={{
-                              ...styles.verifiedBadge,
-                              width: "2rem",
-                              height: "2rem",
-                            }}
-                          >
-                            <svg
-                              width="16"
-                              height="16"
-                              fill="white"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                        <p style={styles.reviewText}>
-                          "Amazing experience! The service exceeded our
-                          expectations and made our special day even more
-                          memorable. Highly recommend to all couples!"
-                        </p>
-                        <h5
-                          style={{
-                            ...styles.reviewerName,
-                            fontSize: "1.25rem",
-                          }}
-                        >
-                          {user.name}
-                        </h5>
-                        <span style={styles.reviewerLocation}>
-                          {user.location}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          </div>
 
-              {/* Mobile Navigation */}
-              <div style={styles.navigation}>
-                {/* Previous Button */}
-                <button
-                  onClick={prevSlide}
-                  style={styles.navButton}
-                  onMouseEnter={(e) =>
-                    (e.target.style.boxShadow =
-                      "0 4px 6px -1px rgba(0, 0, 0, 0.1)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.target.style.boxShadow =
-                      "0 1px 3px 0 rgba(0, 0, 0, 0.1)")
-                  }
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    fill="none"
-                    stroke="#a020f0"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
+          {/* Next Button - Right Side */}
+          <button
+            onClick={nextSlide}
+            style={{ ...styles.navButton, ...styles.nextButton }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "#8b1fa3";
+              e.target.style.transform = "translateY(-50%) scale(1.1)";
+              e.target.style.boxShadow =
+                "0 6px 12px -2px rgba(160, 32, 240, 0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "#a020f0";
+              e.target.style.transform = "translateY(-50%) scale(1)";
+              e.target.style.boxShadow =
+                "0 4px 6px -1px rgba(160, 32, 240, 0.3)";
+            }}
+          >
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2.5"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
 
-                {/* Dots Indicator */}
-                <div style={styles.dots}>
-                  {users.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => goToSlide(index)}
-                      style={{
-                        ...styles.dot,
-                        backgroundColor:
-                          index === currentSlide ? "#a020f0" : "#d1d5db",
-                        transform:
-                          index === currentSlide ? "scale(1.1)" : "scale(1)",
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Next Button */}
-                <button
-                  onClick={nextSlide}
-                  style={styles.navButton}
-                  onMouseEnter={(e) =>
-                    (e.target.style.boxShadow =
-                      "0 4px 6px -1px rgba(0, 0, 0, 0.1)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.target.style.boxShadow =
-                      "0 1px 3px 0 rgba(0, 0, 0, 0.1)")
-                  }
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    fill="none"
-                    stroke="#a020f0"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          )}
+        {/* Dots Indicator - Centered Below */}
+        <div style={styles.dotsContainer}>
+          <div style={styles.dots}>
+            {users.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                style={{
+                  ...styles.dot,
+                  backgroundColor:
+                    index === currentSlide ? "#a020f0" : "#d1d5db",
+                  transform:
+                    index === currentSlide ? "scale(1.1)" : "scale(1)",
+                }}
+              />
+            ))}
+          </div>
         </div>
 
         {/* CTA Button */}

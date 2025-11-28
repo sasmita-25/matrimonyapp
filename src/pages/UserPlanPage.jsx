@@ -38,7 +38,7 @@ const UserPlanPage = () => {
                             Valid till <strong>24 June 2024</strong>
                           </li>
                           <li>
-                            <a href="#" className="cta-3">
+                            <a href="/user/user-plan-selection" className="cta-3">
                               Upgrade now
                             </a>
                           </li>

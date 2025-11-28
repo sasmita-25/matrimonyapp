@@ -38,12 +38,12 @@ const Footer = () => {
             <h4 style={{ color: "white" }}>HELP &amp; SUPPORT</h4>
             <ul>
               <li>
-                <a href="#" style={{ color: "white" }}>
+                <a href="/about-us" style={{ color: "white" }}>
                   About company
                 </a>
               </li>
               <li>
-                <a href="#!" style={{ color: "white" }}>
+                <a href="/contact-page" style={{ color: "white" }}>
                   Contact us
                 </a>
               </li>
@@ -53,7 +53,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" style={{ color: "white" }}>
+                <a href="/faq-page" style={{ color: "white" }}>
                   FAQs
                 </a>
               </li>

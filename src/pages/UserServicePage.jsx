@@ -1,4 +1,13 @@
 import React from "react";
+import Image1 from "../assets/images/couples/19.jpg"
+import Image2 from "../assets/images/couples/11.jpg"
+import Image3 from "../assets/images/couples/14.jpg"
+import Image4 from "../assets/images/couples/15.jpg"
+import Image5 from "../assets/images/couples/16.jpg"
+import Image6 from "../assets/images/couples/17.jpg"
+import Image7 from "../assets/images/couples/18.jpg"
+import Image8 from "../assets/images/couples/10.jpg"
+
 
 import LayoutComponent from "../components/layouts/LayoutComponent";
 
@@ -16,7 +25,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/19.jpg"
+                    src={Image1}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
@@ -34,7 +43,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/14.jpg"
+                    src={Image2}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
@@ -52,7 +61,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/15.jpg"
+                    src={Image3}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
@@ -70,7 +79,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/16.jpg"
+                    src={Image4}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
@@ -88,7 +97,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/17.jpg"
+                    src={Image5}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
@@ -106,7 +115,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/22.jpg"
+                    src={Image6}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
@@ -124,7 +133,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/21.jpg"
+                    src={Image7}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
@@ -142,7 +151,7 @@ const UserServicePage = () => {
               <li>
                 <div className="gal-im">
                   <img
-                    src="images/couples/20.jpg"
+                    src={Image8}
                     className="gal-siz-2"
                     alt=""
                     loading="lazy"
